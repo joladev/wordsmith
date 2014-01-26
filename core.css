@@ -4,13 +4,32 @@
 	color:white;
 }
 
+.container textarea {
+	width:50%;
+	height:100%;
+	background-color: teal;
+	float:left;
+	color:white;
+	border:0;
+	font-size:16px;
+	padding:20px;
+	-moz-box-sizing:border-box;
+}
+
 .container div {
 	width:50%;
 	height:100%;
 	background-color: teal;
 	float:left;
+	color:white;
+	border:0;
+	font-size:16px;
+	padding:20px;
+	border:0;
+	margin-top:1px;
+	-moz-box-sizing:border-box;
 }
 
-.container div:first-of-type {
+.container textarea:first-of-type {
 	background-color: violet;
 }
