@@ -1,0 +1,16 @@
+.container {
+	width:auto;
+	height:100%;
+	color:white;
+}
+
+.container div {
+	width:50%;
+	height:100%;
+	background-color: teal;
+	float:left;
+}
+
+.container div:first-of-type {
+	background-color: violet;
+}
