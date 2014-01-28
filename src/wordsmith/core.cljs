@@ -6,7 +6,7 @@
 
 (def app-state (atom {:text "Hello world!"}))
 
-(defn handle-keydown [event app owner]
+(defn handle-input [event app owner]
   (let [input-area (om/get-node owner "input-area")
         output-area (om/get-node owner "output-area")
         text (.-value input-area)
@@ -19,7 +19,7 @@
     (render [_]
       (dom/div #js {:className "container"}
         (dom/textarea #js {:ref "input-area"
-                           :onInput #(handle-keydown % app owner)})
+                           :onInput #(handle-input % app owner)})
         (dom/div #js {:ref "output-area"})))))
 
 (om/root
