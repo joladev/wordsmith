@@ -19,7 +19,7 @@
     (render [_]
       (dom/div #js {:className "container"}
         (dom/textarea #js {:ref "input-area"
-                           :onKeyUp #(handle-keydown % app owner)})
+                           :onInput #(handle-keydown % app owner)})
         (dom/div #js {:ref "output-area"})))))
 
 (om/root
