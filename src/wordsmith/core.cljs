@@ -6,12 +6,12 @@
 
 (def app-state (atom {:text "Hello world!"}))
 
-(defn handle-keydown [e app owner]
-  (let [i (om/get-node owner "input-area")
-        o (om/get-node owner "output-area")
-        t (.-value i)
-        md (.marked js/window (str t "\n"))]
-    (set! (.-innerHTML o) md)))
+(defn handle-keydown [event app owner]
+  (let [input-area (om/get-node owner "input-area")
+        output-area (om/get-node owner "output-area")
+        text (.-value input-area)
+        markdown (.marked js/window text)]
+    (set! (.-innerHTML output-area) markdown)))
 
 (defn wordsmith-app [app owner]
   (reify
