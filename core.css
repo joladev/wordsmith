@@ -7,7 +7,7 @@
 .container textarea {
 	width:50%;
 	height:100%;
-	background-color: teal;
+	background-color: violet;
 	float:left;
 	color:white;
 	border:0;
@@ -28,8 +28,12 @@
 	border:0;
 	margin-top:1px;
 	-moz-box-sizing:border-box;
+	overflow-y: scroll;
+	word-wrap:break-word;
 }
 
-.container textarea:first-of-type {
-	background-color: violet;
+code,pre {
+	width:100%;
+	overflow: scroll;
+	font-size:14px;
 }
