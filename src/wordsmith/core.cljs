@@ -6,11 +6,11 @@
 
 (def app-state (atom {}))
 
-(defn handle-input [event app owner]
-  (om/set-state! owner :input (.. event -target -value))
-  (let [input (om/get-state owner :input)
+(defn handle-input [event owner]
+  (let [input (.. event -target -value)
         output (.marked js/window input)
         output-area (om/get-node owner "output-area")]
+    (om/set-state! owner :input (.. event -target -value))
     (set! (.-innerHTML output-area) output)))
 
 (defn wordsmith-app [app owner]
@@ -19,9 +19,9 @@
     (init-state [_]
       {:input ""})
     om/IRenderState
-    (render-state [_ {:keys [input]}]
+    (render-state [_ _]
       (dom/div #js {:className "container"}
-        (dom/textarea #js {:onInput #(handle-input % app owner)
+        (dom/textarea #js {:onInput #(handle-input % owner)
                            :value input})
         (dom/div #js {:ref "output-area"})))))
 
