@@ -15,6 +15,10 @@
   (let [k (generate-key title)]
     (.getItem js/localStorage k)))
 
+(defn remove-document [title]
+  (let [k (generate-key title)]
+    (.removeItem js/localStorage k)))
+
 (defn get-all-titles []
   (let [ks (.keys js/Object js/localStorage)
         filtered (filter #(= (.substring % 0 prefix-length) prefix) ks)]
