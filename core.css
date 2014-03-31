@@ -4,8 +4,30 @@
 	color:white;
 }
 
-.container textarea {
-	width:50%;
+#left-menu {
+	width: 20%;
+	background-color: orange;
+	height: 100%;
+	float:left;
+	padding:20px;
+	-moz-box-sizing:border-box;
+	margin-top:1px;
+}
+
+#left-menu ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+	font-family: monospace;
+}
+
+#left-menu li {
+	padding:10px;
+}
+
+#input-area {
+	width:40%;
 	height:100%;
 	background-color: violet;
 	float:left;
@@ -16,8 +38,8 @@
 	-moz-box-sizing:border-box;
 }
 
-.container div {
-	width:50%;
+#output-area {
+	width:40%;
 	height:100%;
 	background-color: teal;
 	float:left;
@@ -38,7 +60,7 @@ code,pre {
 	font-size:14px;
 }
 
-#wordsmith-menu input {
+#title-field input {
 	border:none;
 	border-bottom:1px solid black;
 	line-height:20px;
