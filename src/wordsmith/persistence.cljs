@@ -23,3 +23,9 @@
   (let [ks (.keys js/Object js/localStorage)
         filtered (filter #(= (.substring % 0 prefix-length) prefix) ks)]
     (mapv #(.substring % prefix-length) filtered)))
+
+(defn clear-local-storage []
+  (doseq [t (get-all-titles)]
+    (remove-document t)))
+
+(aset js/window "clearLocalStorage" wordsmith.persistence/clear-local-storage)
