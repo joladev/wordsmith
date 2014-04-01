@@ -6,16 +6,17 @@
 
 (enable-console-print!)
 
-(def app-state (atom {}))
+(extend-type string
+  ICloneable
+  (-clone [s] (js/String. s)))
+
+(def app-state (atom {:input ""}))
 
 (defn handle-title-change [event owner]
-  (let [title (.. event -target -value)
+  (let [new-title (.. event -target -value)
         old-title (om/get-state owner :title)]
-    (when-not (= "" title)
-      (om/set-state! owner :title title)
-      (p/remove-document old-title)
-      (p/set-document title (om/get-state owner :input))
-      (om/transact! owner :titles #(replace {old-title title} %)))))
+    (when-not (= "" new-title)
+      (om/set-state! owner :title new-title))))
 
 (defn title-field [app owner]
   (reify
@@ -36,23 +37,22 @@
     om/IRenderState
     (render-state [_ {:keys [titles]}]
       (dom/div #js {:id "left-menu"}
-        (dom/p nil (str titles))
         (apply dom/ul nil
           (map #(dom/li 
-                  #js {:onClick (fn [e] (update-current e owner))} %)
+                  #js {:key (str %) :onClick (fn [e] (update-current e owner))} %)
                titles))))))
 
 (defn wordsmith-app [app owner]
   (reify
     om/IInitState
     (init-state [_]
-      {:input "" :titles (p/get-all-titles)})
+      {:input (:input app) :titles (p/get-all-titles)})
     om/IRenderState
     (render-state [_ state]
       (dom/div #js {:className "container"}
         (om/build title-field app {:init-state state})
         (om/build left-menu app {:init-state state})
-        (om/build e/editor app {:init-state state})))))
+        (om/build e/editor app)))))
 
 (om/root
   app-state
