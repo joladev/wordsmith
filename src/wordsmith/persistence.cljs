@@ -29,3 +29,5 @@
     (remove-document t)))
 
 (aset js/window "clearLocalStorage" wordsmith.persistence/clear-local-storage)
+(aset js/window "getDocument" wordsmith.persistence/get-document)
+(aset js/window "setDocument" wordsmith.persistence/set-document)
