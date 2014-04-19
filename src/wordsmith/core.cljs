@@ -37,8 +37,9 @@
 ;; Left menu
 
 (defn update-current [event app]
-  (om/update! app :input (p/get-document (.. event -target -textContent)))
-  (om/update! app :title (.. event -target -textContent)))
+  (let [title (.. event -target -textContent)]
+    (om/update! app :input (p/get-document title))
+    (om/update! app :title title)))
 
 (defn left-menu [app owner]
   (reify
