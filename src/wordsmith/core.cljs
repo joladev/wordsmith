@@ -10,7 +10,15 @@
   ICloneable
   (-clone [s] (js/String. s)))
 
+(extend-type js/String
+  ICloneable
+  (-clone [s] (js/String. s))
+  om/IValue
+  (-value [s] (str s)))
+
 (def app-state (atom {:input "" :titles [] :current "" :title ""}))
+
+;; Title field
 
 (defn handle-title-change [event app]
   (let [new-title (.. event -target -value)]
@@ -21,10 +29,11 @@
   (reify
     om/IRender
     (render [_]
-      (let [title (:title app)]
-        (dom/div #js {:id "title-field"}
-          (dom/input #js {:type "text" :onBlur #(handle-title-change % title)}
-                     (:current app)))))))
+      (dom/div #js {:id "title-field"}
+        (dom/input #js {:type "text" :onBlur #(handle-title-change % app)}
+                   (:current app))))))
+
+;; Left menu
 
 (defn update-current [event app]
   (om/update! app :current (.. event -target -textContent)))
@@ -33,28 +42,30 @@
   (reify
     om/IRender
     (render [_]
-      (let [current (:current app)]
-        (dom/div #js {:id "left-menu"}
-          (apply dom/ul nil
-            (map #(dom/li 
-                    #js {:key (str %) 
-                         :onClick (fn [e] (update-current e current))}
-                    (om/value %))
-                 (:titles app))))))))
+      (dom/div #js {:id "left-menu"}
+        (apply dom/ul nil
+          (map #(dom/li 
+                  #js {:key (str %) 
+                       :onClick (fn [e] (update-current e app))}
+                  (om/value %))
+               (:titles app)))))))
+
+;; The main app
 
 (defn wordsmith-app [app owner]
   (reify
     om/IWillMount
     (will-mount [_]
-      (om/update! (:titles app) :titles (p/get-all-titles)))
+      (om/update! app :titles (p/get-all-titles)))
     om/IRender
     (render [_]
+      (println app)
       (dom/div #js {:className "container"}
         (om/build title-field app)
         (om/build left-menu app)
         (om/build e/editor (:input app))))))
 
 (om/root
-  app-state
   wordsmith-app
-  (. js/document (getElementById "app")))
+  app-state
+  {:target (. js/document (getElementById "app"))})
