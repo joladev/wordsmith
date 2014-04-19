@@ -10,49 +10,46 @@
   ICloneable
   (-clone [s] (js/String. s)))
 
-(def app-state (atom {:input ""}))
+(def app-state (atom {:input "" :titles [] :current ""}))
 
-(defn handle-title-change [event owner]
+(defn handle-title-change [event app]
   (let [new-title (.. event -target -value)
-        old-title (om/get-state owner :title)]
+        old-title (:title app)]
     (when-not (= "" new-title)
-      (om/set-state! owner :title new-title))))
+      (om/update! (:title app) :title new-title))))
 
 (defn title-field [app owner]
   (reify
-    om/IInitState
-    (init-state [_]
-      {:title ""})
-    om/IRenderState
-    (render-state [_ {:keys [title]}]
+    om/IRender
+    (render [_]
       (dom/div #js {:id "title-field"}
-       (dom/input #js {:type "text" :onBlur #(handle-title-change % owner)}
-                  title)))))
+       (dom/input #js {:type "text" :onBlur #(handle-title-change % app)}
+                  (:current app))))))
 
-(defn update-current [event owner]
-  (om/set-state! owner :current (.. event -target -text)))
+(defn update-current [event app]
+  (om/update! (:current app) :current (.. event -target -text)))
 
 (defn left-menu [app owner]
   (reify
-    om/IRenderState
-    (render-state [_ {:keys [titles]}]
+    om/IRender
+    (render [_]
       (dom/div #js {:id "left-menu"}
         (apply dom/ul nil
           (map #(dom/li 
-                  #js {:key (str %) :onClick (fn [e] (update-current e owner))} %)
-               titles))))))
+                  #js {:key (str %) :onClick (fn [e] (update-current e app))} %)
+               (:titles app)))))))
 
 (defn wordsmith-app [app owner]
   (reify
-    om/IInitState
-    (init-state [_]
-      {:input (:input app) :titles (p/get-all-titles)})
-    om/IRenderState
-    (render-state [_ state]
+    om/IWillMount
+    (will-mount [_]
+      (om/update! (:titles app) :titles (p/get-all-titles)))
+    om/IRender
+    (render [_]
       (dom/div #js {:className "container"}
-        (om/build title-field app {:init-state state})
-        (om/build left-menu app {:init-state state})
-        (om/build e/editor app)))))
+        (om/build title-field app)
+        (om/build left-menu app)
+        (om/build e/editor (:input app))))))
 
 (om/root
   app-state
