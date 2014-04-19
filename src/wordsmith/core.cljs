@@ -49,7 +49,6 @@
       (om/update! (:titles app) :titles (p/get-all-titles)))
     om/IRender
     (render [_]
-      (print app)
       (dom/div #js {:className "container"}
         (om/build title-field app)
         (om/build left-menu app)
