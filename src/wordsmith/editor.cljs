@@ -9,7 +9,6 @@
   (reify
     om/IRender
     (render [_]
-            (println input)
       (dom/div nil
         (dom/textarea #js {:id "input-area"
                            :onInput #(handle-input % input owner)
