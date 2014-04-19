@@ -16,7 +16,7 @@
   om/IValue
   (-value [s] (str s)))
 
-(def app-state (atom {:input "" :titles [] :current "" :title ""}))
+(def app-state (atom {:input "" :titles [] :title ""}))
 
 ;; Title field
 
@@ -30,13 +30,15 @@
     om/IRender
     (render [_]
       (dom/div #js {:id "title-field"}
-        (dom/input #js {:type "text" :onBlur #(handle-title-change % app)}
-                   (:current app))))))
+        (dom/input #js {:type "text"
+                        :onBlur #(handle-title-change % app)
+                        :value (:title app)})))))
 
 ;; Left menu
 
 (defn update-current [event app]
-  (om/update! app :current (.. event -target -textContent)))
+  (om/update! app :input (p/get-document (.. event -target -textContent)))
+  (om/update! app :title (.. event -target -textContent)))
 
 (defn left-menu [app owner]
   (reify
@@ -59,7 +61,6 @@
       (om/update! app :titles (p/get-all-titles)))
     om/IRender
     (render [_]
-      (println app)
       (dom/div #js {:className "container"}
         (om/build title-field app)
         (om/build left-menu app)
