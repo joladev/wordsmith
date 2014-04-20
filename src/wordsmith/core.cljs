@@ -1,5 +1,5 @@
 (ns wordsmith.core
-  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require-macros [cljs.core.async.macros :refer [go-loop]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
@@ -83,10 +83,10 @@
     (will-mount [_]
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
-        (go (loop []
+        (go-loop []
           (let [[action params] (<! channel)]
             (save-document app)
-            (recur))))))
+            (recur)))))
     om/IRender
     (render [_]
       (dom/div #js {:className "container"}
