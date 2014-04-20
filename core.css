@@ -12,6 +12,7 @@
 	-moz-box-sizing:border-box;
 	margin-top:1px;
 	clear:both;
+	min-height:100%;
 }
 
 #left-menu ul {
