@@ -72,7 +72,6 @@ code,pre {
 }
 
 #save-button {
-	padding:10px;
 	color:black;
 	display:block;
 	float:right;
@@ -80,6 +79,7 @@ code,pre {
 	font-size: 20px;
 	margin-top:10px;
 	margin-right:20px;
+	background-color:white;
 }
 
 #last-saved {
