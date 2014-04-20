@@ -55,6 +55,9 @@
 
 ;; The main app
 
+(defn save-document [app]
+  (p/set-document (:title @app) (:input @app)))
+
 (defn wordsmith-app [app owner]
   (reify
     om/IWillMount
@@ -64,6 +67,8 @@
     (render [_]
       (dom/div #js {:className "container"}
         (om/build title-field app)
+        (dom/button #js {:id "save-button" 
+                         :onClick #(save-document app)} "Save")
         (om/build left-menu app)
         (om/build e/editor (:input app))))))
 

@@ -12,6 +12,7 @@
 	padding:20px;
 	-moz-box-sizing:border-box;
 	margin-top:1px;
+	clear:both;
 }
 
 #left-menu ul {
@@ -67,4 +68,16 @@ code,pre {
 	margin:10px;
 	padding:5px;
 	font-size:20px;
+	float:left;
+}
+
+#save-button {
+	padding:10px;
+	color:black;
+	display:block;
+	float:right;
+	font-family: monospace;
+	font-size: 20px;
+	margin-top:10px;
+	margin-right:20px;
 }
