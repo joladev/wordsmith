@@ -1,8 +1,10 @@
 (ns wordsmith.core
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
-            [wordsmith.editor :as e]))
+            [wordsmith.editor :as e]
+            [cljs.core.async :refer [put! chan <!]]))
 
 (enable-console-print!)
 
@@ -16,7 +18,12 @@
   om/IValue
   (-value [s] (str s)))
 
-(def app-state (atom {:input "" :titles [] :title ""}))
+(def app-state 
+  (atom 
+    {:input "" 
+     :titles [] 
+     :title "" 
+     :channel (chan)}))
 
 ;; Title field
 
@@ -53,6 +60,18 @@
                   (om/value %))
                (:titles app)))))))
 
+;; Save button
+
+(defn button-click [app]
+  (put! (:channel @app) [:save nil]))
+
+(defn save-button [app owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/button #js {:id "save-button" 
+                       :onClick #(button-click app)} "Save"))))
+
 ;; The main app
 
 (defn save-document [app]
@@ -62,13 +81,17 @@
   (reify
     om/IWillMount
     (will-mount [_]
-      (om/update! app :titles (p/get-all-titles)))
+      (om/update! app :titles (p/get-all-titles))
+      (let [channel (:channel app)]
+        (go (loop []
+          (let [[action params] (<! channel)]
+            (save-document app)
+            (recur))))))
     om/IRender
     (render [_]
       (dom/div #js {:className "container"}
         (om/build title-field app)
-        (dom/button #js {:id "save-button" 
-                         :onClick #(save-document app)} "Save")
+        (om/build save-button app)
         (om/build left-menu app)
         (om/build e/editor (:input app))))))
 
