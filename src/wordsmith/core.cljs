@@ -4,7 +4,9 @@
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
             [wordsmith.editor :as e]
-            [cljs.core.async :refer [put! chan <!]]))
+            [cljs.core.async :refer [put! chan <!]]
+            [goog.string :as gstring]
+            [goog.string.format]))
 
 (enable-console-print!)
 
@@ -64,7 +66,10 @@
 ;; Save button
 
 (defn get-time [date]
-  (str (.getHours date) ":" (.getMinutes date) ":" (.getSeconds date)))
+  (let [hours (.getHours date)
+        minutes (.getMinutes date)
+        seconds (.getSeconds date)]
+    (gstring/format "%02d:%02d:%02d" hours minutes seconds)))
 
 (defn button-click [app]
   (put! (:channel @app) [:save nil]))
