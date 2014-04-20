@@ -23,6 +23,7 @@
     {:input "" 
      :titles [] 
      :title "" 
+     :last-saved nil
      :channel (chan)}))
 
 ;; Title field
@@ -62,6 +63,9 @@
 
 ;; Save button
 
+(defn get-time [date]
+  (str (.getHours date) ":" (.getMinutes date) ":" (.getSeconds date)))
+
 (defn button-click [app]
   (put! (:channel @app) [:save nil]))
 
@@ -69,12 +73,17 @@
   (reify
     om/IRender
     (render [_]
-      (dom/button #js {:id "save-button" 
-                       :onClick #(button-click app)} "Save"))))
+      (dom/div nil
+        (dom/button #js {:id "save-button" 
+                         :onClick #(button-click app)} "Save")
+        (dom/span #js {:id "last-saved"} 
+          (when-let [last-saved (:last-saved app)]
+            (str "Last saved at: " (get-time last-saved))))))))
 
 ;; The main app
 
 (defn save-document [app]
+  (om/update! app :last-saved (js/Date.))
   (p/set-document (:title @app) (:input @app)))
 
 (defn wordsmith-app [app owner]
