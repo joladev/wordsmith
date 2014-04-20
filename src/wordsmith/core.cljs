@@ -32,8 +32,7 @@
 
 (defn handle-title-change [event app]
   (let [new-title (.. event -target -value)]
-    (when-not (= "" new-title)
-      (om/update! app :title new-title))))
+    (om/update! app :title new-title)))
 
 (defn title-field [app owner]
   (reify
@@ -41,7 +40,7 @@
     (render [_]
       (dom/div #js {:id "title-field"}
         (dom/input #js {:type "text"
-                        :onBlur #(handle-title-change % app)
+                        :onChange #(handle-title-change % app)
                         :value (:title app)})))))
 
 ;; Left menu
