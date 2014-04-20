@@ -22,9 +22,9 @@
 
 (def app-state 
   (atom 
-    {:input "" 
-     :titles [] 
-     :title "" 
+    {:input ""
+     :titles []
+     :title ""
      :last-saved nil
      :channel (chan)}))
 
@@ -87,8 +87,10 @@
 ;; The main app
 
 (defn save-document [app]
+  (println (p/get-all-titles))
   (om/update! app :last-saved (js/Date.))
-  (p/set-document (:title @app) (:input @app)))
+  (p/set-document (:title @app) (:input @app))
+  (om/update! app :titles (p/get-all-titles)))
 
 (defn wordsmith-app [app owner]
   (reify
@@ -102,6 +104,7 @@
             (recur)))))
     om/IRender
     (render [_]
+            (println (:titles app))
       (dom/div #js {:className "container"}
         (om/build title-field app)
         (om/build save-button app)
