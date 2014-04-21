@@ -6,7 +6,9 @@
             [wordsmith.editor :as e]
             [cljs.core.async :refer [put! chan <!]]
             [goog.string :as gstring]
-            [goog.string.format]))
+            [goog.string.format]
+            [goog.events :as events])
+  (:import [goog.events EventType]))
 
 (enable-console-print!)
 
@@ -91,6 +93,14 @@
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
 
+(defn listen [el type app]
+  (events/listen el type
+    #(when 
+       (and (.-metaKey %)
+            (= 83 (.-keyCode %)))
+       (.preventDefault %)
+       (save-document app))))
+
 (defn wordsmith-app [app owner]
   (reify
     om/IWillMount
@@ -100,7 +110,8 @@
         (go-loop []
           (let [[action params] (<! channel)]
             (save-document app)
-            (recur)))))
+            (recur))))
+      (listen js/document EventType/KEYDOWN app))
     om/IRender
     (render [_]
       (dom/div #js {:className "container"}
