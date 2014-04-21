@@ -52,6 +52,10 @@
     (om/update! app :input (p/get-document title))
     (om/update! app :title title)))
 
+(defn delete-click [title app]
+  (p/remove-document title)
+  (om/update! app :titles (p/get-all-titles)))
+
 (defn left-menu [app owner]
   (reify
     om/IRender
@@ -59,9 +63,11 @@
       (dom/div #js {:id "left-menu"}
         (apply dom/ul nil
           (map #(dom/li 
-                  #js {:key (str %) 
-                       :onClick (fn [e] (update-current e app))}
-                  (om/value %))
+                  #js {:key (str %)}
+                  (dom/span #js {:id "delete-button"
+                                 :onClick (fn [e] (delete-click % app))} "x")
+                  (dom/span #js {:onClick (fn [e] (update-current e app))}
+                    (om/value %)))
                (:titles app)))))))
 
 ;; Save button

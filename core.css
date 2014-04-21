@@ -27,6 +27,11 @@
 	padding:10px;
 }
 
+#delete-button {
+	padding:0 5px;
+	margin-left:-20px;
+}
+
 #input-area {
 	width:40%;
 	height:100%;
