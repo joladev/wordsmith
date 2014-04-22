@@ -11,7 +11,7 @@
     (render [_]
       (dom/div nil
         (dom/textarea #js {:id "input-area"
-                           :onInput #(handle-input % input owner)
+                           :onChange #(handle-input % input owner)
                            :value input})
         (dom/div #js {:ref "output-area"
                       :id "output-area"
