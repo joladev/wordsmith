@@ -11,8 +11,8 @@
     (render [_]
       (dom/div nil
         (dom/textarea #js {:id "input-area"
-                           :onChange #(handle-input % input owner)}
-                      (:input app))
+                           :onChange #(handle-input % input owner)
+                           :value input})
         (dom/div #js {:ref "output-area"
                       :id "output-area"
                       :dangerouslySetInnerHTML #js {:__html (.marked js/window input)}})))))
