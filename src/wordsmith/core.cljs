@@ -28,6 +28,7 @@
      :titles []
      :title ""
      :last-saved nil
+     :last-title ""
      :channel (chan)}))
 
 ;; Title field
@@ -36,6 +37,13 @@
   (let [new-title (.. event -target -value)]
     (om/update! app :title new-title)))
 
+(defn handle-title-blur [event app]
+  (let [new-title (.. event -target -value)]
+    (p/set-document new-title (:input @app))
+    (p/remove-document (:last-title @app))
+    (om/update! app :last-title new-title)
+    (om/update! app :titles (p/get-all-titles))))
+
 (defn title-field [app owner]
   (reify
     om/IRender
@@ -43,6 +51,7 @@
       (dom/div #js {:id "title-field"}
         (dom/input #js {:type "text"
                         :onChange #(handle-title-change % app)
+                        :onBlur #(handle-title-blur % app)
                         :value (:title app)})))))
 
 ;; Left menu
@@ -50,7 +59,8 @@
 (defn update-current [event app]
   (let [title (.. event -target -textContent)]
     (om/update! app :input (p/get-document title))
-    (om/update! app :title title)))
+    (om/update! app :title title)
+    (om/update! app :last-title title)))
 
 (defn delete-click [title app]
   (p/remove-document title)
@@ -96,6 +106,7 @@
 
 (defn save-document [app]
   (om/update! app :last-saved (js/Date.))
+  (om/update! app :last-title (:title @app))
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
 
