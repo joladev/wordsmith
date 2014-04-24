@@ -38,10 +38,7 @@
 
 (defn handle-title-blur [event app]
   (let [new-title (.. event -target -value)]
-    (p/set-document new-title (:input @app))
-    (p/remove-document (:last-title @app))
-    (om/update! app :last-title new-title)
-    (om/update! app :titles (p/get-all-titles))))
+    (put! (:channel @app) [:rename new-title])))
 
 (defn title-field [app owner]
   (reify
@@ -62,8 +59,7 @@
     (om/update! app :last-title title)))
 
 (defn delete-click [title app]
-  (p/remove-document title)
-  (om/update! app :titles (p/get-all-titles)))
+  (put! (:channel @app) [:remove title]))
 
 (defn left-menu [app owner]
   (reify
@@ -97,11 +93,31 @@
 
 ;; The main app
 
+  ; (p/rename-document (:last-title @app) new-title)
+  ; (om/update! app :last-title new-title)
+  ; (om/update! app :titles (p/get-all-titles)
+
+(defn rename-document [app new-title]
+  (p/rename-document (:last-title @app) new-title)
+  (save-document app)
+  (om/update! app :last-title new-title)
+  (om/update! app :titles (p/get-all-titles)))
+  
 (defn save-document [app]
   (om/update! app :last-saved (js/Date.))
   (om/update! app :last-title (:title @app))
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
+
+(defn remove-document [app title]
+  (p/remove-document title)
+  (om/update! app :titles (p/get-all-titles)))
+
+(defn dispatch [command params app]
+  (case command
+    :save   (save-document app)
+    :rename (rename-document app params)
+    :remove (remove-document app params)))
 
 (defn listen [el type app]
   (events/listen el type
@@ -118,8 +134,8 @@
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
         (go-loop []
-          (let [[action params] (<! channel)]
-            (save-document app)
+          (let [[command params] (<! channel)]
+            (dispatch command params app)
             (recur))))
       (listen js/document EventType/KEYDOWN app))
     om/IRender
