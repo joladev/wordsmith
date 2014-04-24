@@ -19,6 +19,11 @@
   (let [k (generate-key title)]
     (.removeItem js/localStorage k)))
 
+(defn rename-document [old-title new-title]
+  (let [value (get-document old-title)]
+    (set-document new-title value)
+    (remove-document old-title)))
+
 (defn get-all-titles []
   (let [ks (.keys js/Object js/localStorage)
         filtered (filter #(= (.substring % 0 prefix-length) prefix) ks)]
