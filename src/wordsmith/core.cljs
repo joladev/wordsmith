@@ -4,9 +4,8 @@
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
             [wordsmith.editor :as e]
+            [wordsmith.utilities :as utilities]
             [cljs.core.async :refer [put! chan <!]]
-            [goog.string :as gstring]
-            [goog.string.format]
             [goog.events :as events])
   (:import [goog.events EventType]))
 
@@ -82,12 +81,6 @@
 
 ;; Save button
 
-(defn format-time [date]
-  (let [hours (.getHours date)
-        minutes (.getMinutes date)
-        seconds (.getSeconds date)]
-    (gstring/format "%02d:%02d:%02d" hours minutes seconds)))
-
 (defn button-click [app]
   (put! (:channel @app) [:save nil]))
 
@@ -100,7 +93,7 @@
                          :onClick #(button-click app)} "Save")
         (dom/span #js {:id "last-saved"} 
           (when-let [last-saved (:last-saved app)]
-            (str "Last saved at: " (format-time last-saved))))))))
+            (str "Last saved at: " (utilities/format-time last-saved))))))))
 
 ;; The main app
 
