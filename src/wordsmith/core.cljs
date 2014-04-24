@@ -82,7 +82,7 @@
 
 ;; Save button
 
-(defn get-time [date]
+(defn format-time [date]
   (let [hours (.getHours date)
         minutes (.getMinutes date)
         seconds (.getSeconds date)]
@@ -100,7 +100,7 @@
                          :onClick #(button-click app)} "Save")
         (dom/span #js {:id "last-saved"} 
           (when-let [last-saved (:last-saved app)]
-            (str "Last saved at: " (get-time last-saved))))))))
+            (str "Last saved at: " (format-time last-saved))))))))
 
 ;; The main app
 
