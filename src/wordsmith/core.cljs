@@ -116,7 +116,7 @@
        (and (.-metaKey %)
             (= 83 (.-keyCode %)))
        (.preventDefault %)
-       (save-document app))))
+       (put! (:channel @app) [:save nil]))))
 
 (defn wordsmith-app [app owner]
   (reify
