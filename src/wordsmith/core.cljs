@@ -4,7 +4,6 @@
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
             [wordsmith.editor :as e]
-            [wordsmith.utilities :as utilities]
             [cljs.core.async :refer [put! chan <!]]
             [goog.events :as events])
   (:import [goog.events EventType]))
@@ -26,8 +25,8 @@
     {:input ""
      :titles []
      :title ""
-     :last-saved nil
      :last-title ""
+     :last-input ""
      :channel (chan)}))
 
 ;; Title field
@@ -84,17 +83,13 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div nil
-        (dom/button #js {:id "save-button" 
-                         :onClick #(button-click app)} "Save")
-        (dom/span #js {:id "last-saved"} 
-          (when-let [last-saved (:last-saved app)]
-            (str "Last saved at: " (utilities/format-time last-saved))))))))
+      (dom/button #js {:id "save-button"
+                       :onClick #(button-click app)} "Save"))))
 
 ;; The main app
 
 (defn save-document [app]
-  (om/update! app :last-saved (js/Date.))
+  (om/update! app :last-input (:input @app))
   (om/update! app :last-title (:title @app))
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
