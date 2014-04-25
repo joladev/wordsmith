@@ -52,12 +52,8 @@
 ;; Left menu
 
 (defn update-current [event app]
-  (let [title (.. event -target -textContent)
-        input (p/get-document title)]
-    (om/update! app :input input)
-    (om/update! app :title title)
-    (om/update! app :last-title title)
-    (om/update! app :last-input input)))
+  (let [title (.. event -target -textContent)]
+    (put! (:channel @app) [:change title])))
 
 (defn delete-click [title app]
   (put! (:channel @app) [:remove title]))
@@ -90,6 +86,13 @@
 
 ;; The main app
 
+(defn change-document [app title]
+  (let [input (p/get-document title)]
+    (om/update! app :input input)
+    (om/update! app :title title)
+    (om/update! app :last-title title)
+    (om/update! app :last-input input)))
+
 (defn save-document [app]
   (om/update! app :last-input (:input @app))
   (om/update! app :last-title (:title @app))
@@ -108,7 +111,8 @@
   (case command
     :save   (save-document app)
     :rename (rename-document app params)
-    :remove (remove-document app params)))
+    :remove (remove-document app params)
+    :change (change-document app params)))
 
 (defn listen [el type app]
   (events/listen el type
