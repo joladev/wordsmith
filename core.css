@@ -82,9 +82,19 @@ code,pre {
 	float:right;
 	font-family: monospace;
 	font-size: 20px;
+	width:10%;
+	height:8%;
 	margin-top:10px;
 	margin-right:20px;
 	background-color:white;
+	-moz-box-sizing:border-box;
+}
+
+#save-button.disabled {
+	background-color: #efefef;
+	color: #aaa;
+	border:none;
+	-moz-box-sizing:border-box;
 }
 
 #last-saved {
