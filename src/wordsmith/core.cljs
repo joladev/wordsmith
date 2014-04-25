@@ -3,7 +3,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
-            [wordsmith.editor :as e]
+            [wordsmith.editor :refer [editor]]
             [cljs.core.async :refer [put! chan <!]]
             [goog.events :as events])
   (:import [goog.events EventType]))
@@ -159,7 +159,7 @@
         (om/build new-document app)
         (om/build save-button app)
         (om/build left-menu app)
-        (om/build e/editor (:input app))))))
+        (om/build editor (:input app))))))
 
 (om/root
   wordsmith-app
