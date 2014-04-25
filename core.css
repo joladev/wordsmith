@@ -76,6 +76,15 @@ code,pre {
 	float:left;
 }
 
+#new-document {
+	color:black;
+	font-size:30px;
+	cursor:pointer;
+	margin-top:10px;
+	display:block;
+	float:left;
+}
+
 #save-button {
 	color:black;
 	display:block;

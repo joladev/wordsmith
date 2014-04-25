@@ -49,6 +49,14 @@
                         :onBlur #(handle-title-blur % app)
                         :value (:title app)})))))
 
+;; New document
+
+(defn new-document [app owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/span #js {:id "new-document"} "+"))))
+
 ;; Left menu
 
 (defn update-current [event app]
@@ -147,6 +155,7 @@
     (render [_]
       (dom/div #js {:className "container"}
         (om/build title-field app)
+        (om/build new-document app)
         (om/build save-button app)
         (om/build left-menu app)
         (om/build e/editor (:input app))))))
