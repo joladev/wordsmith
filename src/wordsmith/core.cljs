@@ -117,7 +117,7 @@
 (defn listen [el type app]
   (events/listen el type
     #(when 
-       (and (.-metaKey %)
+       (and (or (.-metaKey %) (.-ctrlKey %))
             (= 83 (.-keyCode %)))
        (.preventDefault %)
        (put! (:channel @app) [:save nil]))))
