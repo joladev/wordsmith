@@ -77,12 +77,20 @@
 (defn button-click [app]
   (put! (:channel @app) [:save nil]))
 
+(defn saved? [app]
+  (= (:input app) (:last-input app)))
+
 (defn save-button [app owner]
   (reify
     om/IRender
     (render [_]
       (dom/button #js {:id "save-button"
-                       :onClick #(button-click app)} "Save"))))
+                       :disabled (saved? app)
+                       :className (when (saved? app) "disabled")
+                       :onClick #(button-click app)}
+                  (if (saved? app)
+                    "Saved"
+                    "Save")))))
 
 ;; The main app
 
