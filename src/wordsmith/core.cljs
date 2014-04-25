@@ -56,7 +56,9 @@
     (put! (:channel @app) [:change title])))
 
 (defn delete-click [title app]
-  (put! (:channel @app) [:remove title]))
+  (let [response (js/confirm "Are you sure?")]
+    (when response
+      (put! (:channel @app) [:remove title]))))
 
 (defn left-menu [app owner]
   (reify
