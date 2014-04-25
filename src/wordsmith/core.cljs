@@ -51,11 +51,15 @@
 
 ;; New document
 
-(defn new-document [app owner]
+(defn new-document-click [app]
+  (put! (:channel @app) [:new nil]))
+
+(defn new-button [app owner]
   (reify
     om/IRender
     (render [_]
-      (dom/span #js {:id "new-document"} "+"))))
+      (dom/span #js {:id "new-document"
+                     :onClick #(new-document-click app)} "+"))))
 
 ;; Left menu
 
@@ -105,6 +109,15 @@
 
 ;; The main app
 
+(defn reset-document-state! [app]
+  (om/update! app :input "")
+  (om/update! app :title "")
+  (om/update! app :last-title "")
+  (om/update! app :last-input ""))
+
+(defn new-document [app]
+  (reset-document-state! app))
+
 (defn change-document [app title]
   (let [input (p/get-document title)]
     (om/update! app :input input)
@@ -124,14 +137,17 @@
   
 (defn remove-document [app title]
   (p/remove-document title)
-  (om/update! app :titles (p/get-all-titles)))
+  (om/update! app :titles (p/get-all-titles))
+  (when (= (:title @app) title)
+    (reset-document-state! app)))
 
 (defn dispatch [command params app]
   (case command
     :save   (save-document app)
     :rename (rename-document app params)
     :remove (remove-document app params)
-    :change (change-document app params)))
+    :change (change-document app params)
+    :new    (new-document app)))
 
 (defn listen [el type app]
   (events/listen el type
@@ -156,7 +172,7 @@
     (render [_]
       (dom/div #js {:className "container"}
         (om/build title-field app)
-        (om/build new-document app)
+        (om/build new-button app)
         (om/build save-button app)
         (om/build left-menu app)
         (om/build editor (:input app))))))
