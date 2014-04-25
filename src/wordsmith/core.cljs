@@ -35,10 +35,6 @@
   (let [new-title (.. event -target -value)]
     (om/update! app :title new-title)))
 
-(defn handle-title-blur [event app]
-  (let [new-title (.. event -target -value)]
-    (put! (:channel @app) [:rename new-title])))
-
 (defn title-field [app owner]
   (reify
     om/IRender
@@ -46,7 +42,6 @@
       (dom/div #js {:id "title-field"}
         (dom/input #js {:type "text"
                         :onChange #(handle-title-change % app)
-                        :onBlur #(handle-title-blur % app)
                         :value (:title app)})))))
 
 ;; New document
@@ -93,7 +88,9 @@
   (put! (:channel @app) [:save nil]))
 
 (defn saved? [app]
-  (= (:input app) (:last-input app)))
+  (and 
+    (= (:input app) (:last-input app))
+    (= (:title app) (:last-title app))))
 
 (defn save-button [app owner]
   (reify
@@ -126,15 +123,13 @@
     (om/update! app :last-input input)))
 
 (defn save-document [app]
+  (when (= (:title @app) (:last-title @app))
+    (p/rename-document (:last-title @app) (:title @app)))
   (om/update! app :last-input (:input @app))
   (om/update! app :last-title (:title @app))
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
 
-(defn rename-document [app new-title]
-  (p/rename-document (:last-title @app) new-title)
-  (save-document app))
-  
 (defn remove-document [app title]
   (p/remove-document title)
   (om/update! app :titles (p/get-all-titles))
@@ -144,7 +139,6 @@
 (defn dispatch [command params app]
   (case command
     :save   (save-document app)
-    :rename (rename-document app params)
     :remove (remove-document app params)
     :change (change-document app params)
     :new    (new-document app)))
