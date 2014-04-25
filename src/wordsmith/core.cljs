@@ -76,9 +76,10 @@
         (apply dom/ul nil
           (map #(dom/li 
                   #js {:key (str %)}
-                  (dom/span #js {:id "delete-button"
+                  (dom/span #js {:className "delete-button"
                                  :onClick (fn [e] (delete-click % app))} "x")
-                  (dom/span #js {:onClick (fn [e] (update-current e app))}
+                  (dom/span #js {:className "left-menu-title"
+                                 :onClick (fn [e] (update-current e app))}
                     (om/value %)))
                (:titles app)))))))
 

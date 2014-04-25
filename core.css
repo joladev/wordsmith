@@ -27,9 +27,16 @@
 	padding:10px;
 }
 
-#delete-button {
-	padding:0 10px;
-	margin-left:-20px;
+.left-menu-title {
+	padding:5px;
+	cursor: pointer;
+}
+
+.delete-button {
+	padding:0 5px;
+	cursor: pointer;
+	margin-left:-15px;
+	margin-right:5px;
 }
 
 #input-area {
