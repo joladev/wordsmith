@@ -93,16 +93,16 @@
 
 ;; The main app
 
-(defn rename-document [app new-title]
-  (p/rename-document (:last-title @app) new-title)
-  (save-document app))
-  
 (defn save-document [app]
   (om/update! app :last-saved (js/Date.))
   (om/update! app :last-title (:title @app))
   (p/set-document (:title @app) (:input @app))
   (om/update! app :titles (p/get-all-titles)))
 
+(defn rename-document [app new-title]
+  (p/rename-document (:last-title @app) new-title)
+  (save-document app))
+  
 (defn remove-document [app title]
   (p/remove-document title)
   (om/update! app :titles (p/get-all-titles)))
