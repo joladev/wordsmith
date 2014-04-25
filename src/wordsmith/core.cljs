@@ -52,10 +52,12 @@
 ;; Left menu
 
 (defn update-current [event app]
-  (let [title (.. event -target -textContent)]
-    (om/update! app :input (p/get-document title))
+  (let [title (.. event -target -textContent)
+        input (p/get-document title)]
+    (om/update! app :input input)
     (om/update! app :title title)
-    (om/update! app :last-title title)))
+    (om/update! app :last-title title)
+    (om/update! app :last-input input)))
 
 (defn delete-click [title app]
   (put! (:channel @app) [:remove title]))
