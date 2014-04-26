@@ -9,3 +9,5 @@ pom.xml
 .lein-plugins/
 wordsmith.js
 .nrepl-port
+/node_modules/
+/resources/main.js
