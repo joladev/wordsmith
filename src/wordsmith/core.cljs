@@ -202,15 +202,15 @@
        (put! (:channel @app) [:save nil]))))
 
 (defn wordsmith-app
-  "Fetches document titles and starts the asynchronous command event 
-   dispatch loop which handles all major app state changing events.
-   Also attaches a KEYDOWN event listener to the page, for hot keys.
-  
-   Renders the app components."
+  "The starting point of the wordsmith app. Implements will-mount and 
+   render."
   [app owner]
   (reify
     om/IWillMount
     (will-mount [_]
+      "Fetches document titles and starts the asynchronous command event 
+       dispatch loop which handles all major app state changing events.
+       Also attaches a KEYDOWN event listener to the page, for hot keys."
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
         (go-loop []
@@ -220,6 +220,7 @@
       (listen js/document EventType/KEYDOWN app))
     om/IRender
     (render [_]
+      "Renders the app components in a container."
       (dom/div #js {:className "container"}
         (om/build title-field app)
         (om/build new-button app)
