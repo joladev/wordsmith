@@ -3,7 +3,6 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [wordsmith.persistence :as p]
-            [wordsmith.editor :refer [editor]]
             [cljs.core.async :refer [put! chan <!]]
             [goog.events :as events])
   (:import [goog.events EventType]))
@@ -131,6 +130,35 @@
                   (if (saved? app)
                     "Saved"
                     "Save")))))
+
+;; Editor
+
+(defn handle-input
+  "Handles input change and updates the input app state."
+  [event input]
+  (om/update! input (.. event -target -value)))
+
+(defn marked
+  "Calls out to the marked.js library to compile input."
+  [md]
+  (.marked js/window md))
+
+(defn editor
+  "Component that renders the editor and preview. Compiles the app state input
+   to markdown and dangerously sets it to output-area. Editing the input-area 
+   triggers an update to the app state."
+  [input owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div nil
+        (dom/textarea #js {:id "input-area"
+                           :onChange #(handle-input % input)
+                           :value input})
+        (dom/div 
+          #js {:ref "output-area"
+               :id "output-area"
+               :dangerouslySetInnerHTML #js {:__html (marked input)}})))))
 
 ;; The main app
 
