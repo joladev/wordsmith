@@ -87,10 +87,10 @@
 (defn button-click [app]
   (put! (:channel @app) [:save nil]))
 
-(defn saved? [app]
+(defn saved? [{:keys [input last-input title last-title]}]
   (and 
-    (= (:input app) (:last-input app))
-    (= (:title app) (:last-title app))))
+    (= input last-input)
+    (= title last-title)))
 
 (defn save-button [app owner]
   (reify
