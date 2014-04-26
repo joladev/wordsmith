@@ -162,13 +162,16 @@
 
 ;; The main app
 
+(defn update-many!
+  "Sequentially updates multiple keys on Om cursor to the given value."
+  [app ks v]
+  (doseq [k ks]
+    (om/update! app k v)))
+
 (defn reset-document-state!
   "Sets the document related keys in the app state to a 'clean' state."
   [app]
-  (om/update! app :input "")
-  (om/update! app :title "")
-  (om/update! app :last-title "")
-  (om/update! app :last-input ""))
+  (update-many! app [:input :title :last-title :last-input] ""))
 
 (defn new-document
   "A new document simply means resetting the document state."
@@ -181,10 +184,8 @@
    to the new document state."
   [app title]
   (let [input (p/get-document title)]
-    (om/update! app :input input)
-    (om/update! app :title title)
-    (om/update! app :last-title title)
-    (om/update! app :last-input input)))
+    (update-many! app [:input :last-input] input)
+    (update-many! app [:title :last-title] title)))
 
 (defn save-document
   "If title is the same as last-title it renames the document. Then
