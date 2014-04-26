@@ -123,7 +123,7 @@
     (om/update! app :last-input input)))
 
 (defn save-document [app]
-  (when (= (:title @app) (:last-title @app))
+  (when-not (= (:title @app) (:last-title @app))
     (p/rename-document (:last-title @app) (:title @app)))
   (om/update! app :last-input (:input @app))
   (om/update! app :last-title (:title @app))
