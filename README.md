@@ -5,7 +5,7 @@ A sample ClojureScript + om application for markdown editing with live preview a
 Running it:
 
 ~~~
-lein cljsbuild auto release
+lein cljsbuild once release
 ~~~
 
 Once compilation has finished, open the index.html file in your browser.
