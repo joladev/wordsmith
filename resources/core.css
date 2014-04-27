@@ -13,8 +13,9 @@ body {
 	background-color: #a9a;
 	float:left;
 	padding:20px;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
-	margin-top:1px;
 	clear:both;
 	min-height:90%;
 	color:#eee;
@@ -35,6 +36,7 @@ body {
 .left-menu-title {
 	padding:5px;
 	cursor: pointer;
+	word-wrap:break-word;
 }
 
 .delete-button {
@@ -53,6 +55,9 @@ body {
 	border:0;
 	font-size:16px;
 	padding:20px;
+	margin:0;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
 }
 
@@ -66,7 +71,8 @@ body {
 	font-size:16px;
 	padding:20px;
 	border:0;
-	margin-top:1px;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
 	overflow-y: scroll;
 	word-wrap:break-word;
@@ -88,6 +94,7 @@ code,pre {
 	float:left;
 	color:#ccc;
 	background-color:#767;
+	width:20%;
 }
 
 #title-field input:focus {
@@ -116,6 +123,8 @@ code,pre {
 	margin-top:10px;
 	background-color: #eee;
 	border:1px solid #ccc;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
 }
 
