@@ -1,7 +1,6 @@
 .container {
-	width:auto;
 	height:100%;
-	color:white;
+	overflow: hidden;
 }
 
 #left-menu {
