@@ -128,8 +128,8 @@
                        :className (when (saved? app) "disabled")
                        :onClick #(button-click app)}
                   (if (saved? app)
-                    "Saved"
-                    "Save")))))
+                    "saved"
+                    "save")))))
 
 ;; Editor
 

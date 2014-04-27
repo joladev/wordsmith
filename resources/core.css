@@ -1,17 +1,23 @@
+body {
+	background-color: #767;
+}
+
 .container {
 	height:100%;
 	overflow: hidden;
+	padding:0 10px;
 }
 
 #left-menu {
 	width: 20%;
-	background-color: orange;
+	background-color: #a9a;
 	float:left;
 	padding:20px;
 	-moz-box-sizing:border-box;
 	margin-top:1px;
 	clear:both;
-	min-height:100%;
+	min-height:90%;
+	color:#eee;
 }
 
 #left-menu ul {
@@ -40,8 +46,8 @@
 
 #input-area {
 	width:40%;
-	height:100%;
-	background-color: violet;
+	height:90%;
+	background-color: #bab;
 	float:left;
 	color:white;
 	border:0;
@@ -52,8 +58,8 @@
 
 #output-area {
 	width:40%;
-	height:100%;
-	background-color: teal;
+	height:90%;
+	background-color: #a9a;
 	float:left;
 	color:white;
 	border:0;
@@ -74,25 +80,33 @@ code,pre {
 
 #title-field input {
 	border:none;
-	border-bottom:1px solid black;
+	border-bottom:1px solid #ccc;
 	line-height:20px;
-	margin:10px;
+	margin:10px 0;
 	padding:5px;
 	font-size:20px;
 	float:left;
+	color:#ccc;
+	background-color:#767;
+}
+
+#title-field input:focus {
+	background-color:#eee;
+	color:#666;
 }
 
 #new-document {
-	color:black;
+	color:#ccc;
 	font-size:30px;
 	cursor:pointer;
+	margin-left:10px;
 	margin-top:10px;
 	display:block;
 	float:left;
 }
 
 #save-button {
-	color:black;
+	color:#767;
 	display:block;
 	float:right;
 	font-family: monospace;
@@ -100,16 +114,15 @@ code,pre {
 	width:100px;
 	height:30px;
 	margin-top:10px;
-	margin-right:20px;
-	background-color:white;
+	background-color: #eee;
+	border:1px solid #ccc;
 	-moz-box-sizing:border-box;
 }
 
 #save-button.disabled {
-	background-color: #efefef;
-	color: #aaa;
-	border:none;
-	-moz-box-sizing:border-box;
+	background-color: #767;
+	color: #ccc;
+	border:1px solid #ccc;
 }
 
 #last-saved {
