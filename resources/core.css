@@ -57,6 +57,7 @@ body {
 	padding:20px;
 	margin:0;
 	outline:none;
+	resize:none;
 	box-sizing:border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
