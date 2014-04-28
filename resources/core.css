@@ -12,13 +12,13 @@ body {
 	width: 20%;
 	background-color: #a9a;
 	float:left;
-	padding:20px;
-	box-sizing:border-box;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing:border-box;
+	padding:20px 10px;
 	clear:both;
 	min-height:90%;
 	color:#eee;
+	box-sizing:border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:border-box;
 }
 
 #left-menu ul {
@@ -30,20 +30,27 @@ body {
 }
 
 #left-menu li {
-	padding:10px;
+	padding:5px;
+	overflow: hidden;
+}
+
+#left-menu li span {
+	display:block;
+	float:left;
 }
 
 .left-menu-title {
-	padding:5px;
 	cursor: pointer;
 	word-wrap:break-word;
+	width:80%;
+	vertical-align: top;
 }
 
 .delete-button {
 	padding:0 5px;
 	cursor: pointer;
-	margin-left:-15px;
 	margin-right:5px;
+	vertical-align: top;
 }
 
 #input-area {
