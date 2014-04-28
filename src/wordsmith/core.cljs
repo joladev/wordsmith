@@ -223,11 +223,11 @@
     :change (change-document app params)
     :new    (new-document app)))
 
-(defn listen
+(defn listen-to-hotkeys
   "Listens to KEYDOWN events using goog.events and checks for Ctrl+S or 
    Cmd+S. When identified, sends a :save command on app channel."
-  [el type app]
-  (events/listen el type
+  [app]
+  (events/listen js/document EventType/KEYDOWN
     #(when 
        (and (or (.-metaKey %) (.-ctrlKey %))
             (= 83 (.-keyCode %)))
@@ -246,13 +246,13 @@
       "Fetches document titles and starts the asynchronous command event 
        dispatch loop which handles all major app state changing events.
        Also attaches a KEYDOWN event listener to the page, for hot keys."
+      (listen-to-hotkeys app)
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
         (go-loop []
           (let [[command params] (<! channel)]
             (dispatch command params app)
-            (recur))))
-      (listen js/document EventType/KEYDOWN app))
+            (recur)))))
     om/IRender
     (render [_]
       "Renders the app components in a container."
