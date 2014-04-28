@@ -157,9 +157,6 @@ button {
 	color:#aaa;
 }
 
-/*
-make title same color as left-menu titles
-
-output-area
-reduce padding h1 
-*/
+#output-area h1:first-of-type {
+	margin:0;
+}
