@@ -61,8 +61,9 @@
   (reify
     om/IRender
     (render [_]
-      (dom/span #js {:id "new-document"
-                     :onClick #(new-document-click app)} "+"))))
+      (dom/button #js {:id "new-document"
+                       :onClick #(new-document-click app)}
+                  "new"))))
 
 ;; Left menu
 
@@ -102,7 +103,7 @@
 
 ;; Save button
 
-(defn button-click
+(defn save-button-click
   "Sends a :save command on the app channel."
   [app]
   (put! (:channel @app) [:save nil]))
@@ -111,7 +112,7 @@
   "Determines whether or not the app state has changed since last
    save."
   [{:keys [input last-input title last-title]}]
-  (and 
+  (and
     (= input last-input)
     (= title last-title)))
 
@@ -126,7 +127,7 @@
       (dom/button #js {:id "save-button"
                        :disabled (saved? app)
                        :className (when (saved? app) "disabled")
-                       :onClick #(button-click app)}
+                       :onClick #(save-button-click app)}
                   (if (saved? app)
                     "saved"
                     "save")))))

@@ -106,20 +106,9 @@ code,pre {
 	color:#666;
 }
 
-#new-document {
-	color:#ccc;
-	font-size:30px;
-	cursor:pointer;
-	margin-left:10px;
-	margin-top:10px;
-	display:block;
-	float:left;
-}
-
-#save-button {
+button {
 	color:#767;
 	display:block;
-	float:right;
 	font-family: monospace;
 	font-size: 20px;
 	width:100px;
@@ -130,6 +119,15 @@ code,pre {
 	box-sizing:border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
+}
+
+#new-document {
+	float:right;
+}
+
+#save-button {
+	float:right;
+	margin-right:10px;
 }
 
 #save-button.disabled {
@@ -158,3 +156,10 @@ code,pre {
 #footer a {
 	color:#aaa;
 }
+
+/*
+make title same color as left-menu titles
+
+output-area
+reduce padding h1 
+*/
