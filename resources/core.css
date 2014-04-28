@@ -146,11 +146,11 @@ button {
 }
 
 #footer {
-	vertical-align: center;
 	font-size:14px;
 	text-align:center;
 	color:#ccc;
 	font-family:monospace;
+	padding:10px;
 }
 
 #footer a {
