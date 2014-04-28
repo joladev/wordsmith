@@ -59,7 +59,7 @@
 
 (defn new-button
   "Component that renders the 'add new' button and handles triggering new
-   document state on app."
+  document state on app."
   [app owner]
   (reify
     om/IRender
@@ -77,7 +77,7 @@
 
 (defn saved?
   "Determines whether or not the app state has changed since last
-   save."
+  save."
   [{:keys [input last-input title last-title]}]
   (and
     (= input last-input)
@@ -85,8 +85,8 @@
 
 (defn save-button
   "Component that renders the save button. The button is disabled
-   when there are no changes to title or input. Clicking the save
-   button triggers the app state to update and saves to localStorage."
+  when there are no changes to title or input. Clicking the save
+  button triggers the app state to update and saves to localStorage."
   [app owner]
   (reify
     om/IRender
@@ -109,7 +109,7 @@
 
 (defn delete-click
   "Shows a prompt asking the user for confirmation. If confirmation
-   is true, sends a :remove command on the app channel."
+  is true, sends a :remove command on the app channel."
   [title app]
   (let [response (js/confirm "Are you sure?")]
     (when response
@@ -117,9 +117,9 @@
 
 (defn left-menu
   "Component that renders the left-menu containing all the documents
-   available in localStorage. Clicking on a title triggers an app state
-   change by sending a :change command on the app channel. Clicking on
-   a delete button does that same with the :remove command."
+  available in localStorage. Clicking on a title triggers an app state
+  change by sending a :change command on the app channel. Clicking on
+  a delete button does that same with the :remove command."
   [app owner]
   (reify
     om/IRender
@@ -149,8 +149,8 @@
 
 (defn editor
   "Component that renders the editor and preview. Compiles the app state input
-   to markdown and dangerously sets it to output-area. Editing the input-area 
-   triggers an update to the app state."
+  to markdown and dangerously sets it to output-area. Editing the input-area 
+  triggers an update to the app state."
   [input owner]
   (reify
     om/IRender
@@ -184,8 +184,8 @@
 
 (defn change-document
   "Changing between documents requires fetching the new document
-   from localStorage and updating both input/title and last-input/last-title
-   to the new document state."
+  from localStorage and updating both input/title and last-input/last-title
+  to the new document state."
   [app title]
   (let [input (p/get-document title)]
     (update-many! app [:input :last-input] input)
@@ -193,8 +193,8 @@
 
 (defn save-document
   "If title is the same as last-title it renames the document. Then
-   updates :last-input and :last-title to the current input and title.
-   Finally refreshes the :titles with the latest results from localStorage."
+  updates :last-input and :last-title to the current input and title.
+  Finally refreshes the :titles with the latest results from localStorage."
   [app]
   (let [{:keys [title input last-title last-input]} @app]
     (when-not (= title last-title)
@@ -206,8 +206,8 @@
 
 (defn remove-document
   "Removes a document from localStorage and updates app state. If the
-   removed document was the current document, also triggers a document
-   state reset."
+  removed document was the current document, also triggers a document
+  state reset."
   [app title]
   (p/remove-document title)
   (om/update! app :titles (p/get-all-titles))
@@ -225,7 +225,7 @@
 
 (defn listen-to-hotkeys
   "Listens to KEYDOWN events using goog.events and checks for Ctrl+S or 
-   Cmd+S. When identified, sends a :save command on app channel."
+  Cmd+S. When identified, sends a :save command on app channel."
   [app]
   (events/listen js/document EventType/KEYDOWN
     #(when 
@@ -238,14 +238,14 @@
 
 (defn wordsmith-app
   "The starting point of the wordsmith app. Implements will-mount and 
-   render."
+  render."
   [app owner]
   (reify
     om/IWillMount
     (will-mount [_]
       "Fetches document titles and starts the asynchronous command event 
-       dispatch loop which handles all major app state changing events.
-       Also attaches a KEYDOWN event listener to the page, for hot keys."
+      dispatch loop which handles all major app state changing events.
+      Also attaches a KEYDOWN event listener to the page, for hot keys."
       (listen-to-hotkeys app)
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
