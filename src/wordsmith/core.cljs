@@ -9,6 +9,9 @@
 
 (enable-console-print!)
 
+;; Implements ICloneable on string and js/string so that
+;; React can handle these properly.
+
 (extend-type string
   ICloneable
   (-clone [s] (js/String. s)))
@@ -65,42 +68,6 @@
                        :onClick #(new-document-click app)}
                   "new"))))
 
-;; Left menu
-
-(defn update-current
-  "Sends a :change command on the app channel."
-  [event app]
-  (let [title (.. event -target -textContent)]
-    (put! (:channel @app) [:change title])))
-
-(defn delete-click
-  "Shows a prompt asking the user for confirmation. If confirmation
-   is true, sends a :remove command on the app channel."
-  [title app]
-  (let [response (js/confirm "Are you sure?")]
-    (when response
-      (put! (:channel @app) [:remove title]))))
-
-(defn left-menu
-  "Component that renders the left-menu containing all the documents
-   available in localStorage. Clicking on a title triggers an app state
-   change by sending a :change command on the app channel. Clicking on
-   a delete button does that same with the :remove command."
-  [app owner]
-  (reify
-    om/IRender
-    (render [_]
-      (dom/div #js {:id "left-menu"}
-        (apply dom/ul nil
-          (map #(dom/li 
-                  #js {:key (str %)}
-                  (dom/span #js {:className "delete-button"
-                                 :onClick (fn [e] (delete-click % app))} "x")
-                  (dom/span #js {:className "left-menu-title"
-                                 :onClick (fn [e] (update-current e app))}
-                    (om/value %)))
-               (:titles app)))))))
-
 ;; Save button
 
 (defn save-button-click
@@ -132,6 +99,42 @@
                     "saved"
                     "save")))))
 
+;; Left menu
+
+(defn change-current
+  "Sends a :change command on the app channel."
+  [event app]
+  (let [title (.. event -target -textContent)]
+    (put! (:channel @app) [:change title])))
+
+(defn delete-click
+  "Shows a prompt asking the user for confirmation. If confirmation
+   is true, sends a :remove command on the app channel."
+  [title app]
+  (let [response (js/confirm "Are you sure?")]
+    (when response
+      (put! (:channel @app) [:remove title]))))
+
+(defn left-menu
+  "Component that renders the left-menu containing all the documents
+   available in localStorage. Clicking on a title triggers an app state
+   change by sending a :change command on the app channel. Clicking on
+   a delete button does that same with the :remove command."
+  [app owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:id "left-menu"}
+        (apply dom/ul nil
+          (map #(dom/li 
+                  #js {:key (str %)}
+                  (dom/span #js {:className "delete-button"
+                                 :onClick (fn [e] (delete-click % app))} "x")
+                  (dom/span #js {:className "left-menu-title"
+                                 :onClick (fn [e] (change-current e app))}
+                    (om/value %)))
+               (:titles app)))))))
+
 ;; Editor
 
 (defn handle-input
@@ -161,10 +164,10 @@
                :id "output-area"
                :dangerouslySetInnerHTML #js {:__html (marked input)}})))))
 
-;; The main app
+;; State transformations
 
 (defn update-many!
-  "Sequentially updates multiple keys on Om cursor to the given value."
+  "Updates multiple keys on Om cursor to the given value."
   [app ks v]
   (doseq [k ks]
     (om/update! app k v)))
@@ -230,6 +233,8 @@
             (= 83 (.-keyCode %)))
        (.preventDefault %)
        (put! (:channel @app) [:save nil]))))
+
+;; The main app
 
 (defn wordsmith-app
   "The starting point of the wordsmith app. Implements will-mount and 
