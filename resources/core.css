@@ -167,3 +167,7 @@ button {
 #output-area h1:first-of-type {
 	margin:0;
 }
+
+#output-area a {
+	color:#eee;
+}
