@@ -161,8 +161,7 @@
                            :onChange #(handle-input % input)
                            :value input})
         (dom/div 
-          #js {:ref "output-area"
-               :id "output-area"
+          #js {:id "output-area"
                :dangerouslySetInnerHTML #js {:__html (marked input)}})))))
 
 ;; State transformations
