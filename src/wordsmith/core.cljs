@@ -157,6 +157,7 @@
     (render [_]
       (dom/div nil
         (dom/textarea #js {:id "input-area"
+                           :spellCheck false
                            :onChange #(handle-input % input)
                            :value input})
         (dom/div 
