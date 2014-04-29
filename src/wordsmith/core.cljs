@@ -133,7 +133,7 @@
                   (dom/span #js {:className "left-menu-title"
                                  :onClick (fn [e] (change-current e app))}
                     (om/value %)))
-               (:titles app)))))))
+               (map om/value (:titles app))))))))
 
 ;; Editor
 
