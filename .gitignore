@@ -11,3 +11,5 @@ wordsmith.js
 .nrepl-port
 /node_modules/
 /resources/main.js
+/resources/main.dev.js
+/resources/dev/

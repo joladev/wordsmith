@@ -22,4 +22,10 @@
                 :preamble ["react/react.min.js"]
                 :externs ["react/externs/react.js"
                           "marked.js"]
-                :closure-warnings {:externs-validation :off}}}]})
+                :closure-warnings {:externs-validation :off}}}
+             {:id "dev"
+              :source-paths ["src"]
+              :compiler {
+                :output-to "resources/main.dev.js"
+                :output-dir "resources/dev"
+                :optimizations :none}}]})
