@@ -1,4 +1,4 @@
-(defproject wordsmith "0.0.1"
+(defproject wordsmith "0.1.0"
   :description "A markdown editor with live preview and localStorage
                 saving. Built using ClojureScript and Om."
   :url "https://github.com/eakron/wordsmith"
