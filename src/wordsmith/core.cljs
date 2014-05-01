@@ -5,7 +5,8 @@
             [wordsmith.persistence :as p]
             [cljs.core.async :refer [put! chan <!]]
             [goog.events :as events])
-  (:import [goog.events EventType]))
+  (:import [goog.events EventType]
+           [goog.async Throttle]))
 
 (enable-console-print!)
 
@@ -223,6 +224,8 @@
     :change (change-document app params)
     :new    (new-document app)))
 
+;; Hot keys
+
 (defn listen-to-hotkeys
   "Listens to KEYDOWN events using goog.events and checks for Ctrl+S or 
   Cmd+S. When identified, sends a :save command on app channel."
@@ -233,6 +236,29 @@
             (= 83 (.-keyCode %)))
        (.preventDefault %)
        (put! (:channel @app) [:save nil]))))
+
+;; Scroll both
+
+(defn parse-int [x]
+  (js/parseInt x 10))
+
+(defn set-scroll-top [source target]
+  "Calculates the progress of scrolling in source as a percentage and
+  sets the target scroll to the same relative place."
+  (let [source-scroll-top (parse-int (.-scrollTop source))
+        source-height     (parse-int (.-scrollHeight source))
+        source-percentage (/ source-scroll-top source-height)
+        target-height     (parse-int (.-scrollHeight target))]
+    (set! (.-scrollTop target) (* source-percentage target-height))))
+
+(defn synchronize-scroll []
+  "Attaches an event listener to input-area that synchronizes the scroll
+  position to output-area. Uses Throttle to avoid triggering too often."
+  (let [input-area (. js/document (getElementById "input-area"))
+        output-area (. js/document (getElementById "output-area"))
+        throttle (Throttle. #(set-scroll-top input-area output-area) 50)]
+    (events/listen input-area EventType/SCROLL
+      #(.fire throttle))))
 
 ;; The main app
 
@@ -246,13 +272,17 @@
       "Fetches document titles and starts the asynchronous command event 
       dispatch loop which handles all major app state changing events.
       Also attaches a KEYDOWN event listener to the page, for hot keys."
-      (listen-to-hotkeys app)
       (om/update! app :titles (p/get-all-titles))
       (let [channel (:channel app)]
         (go-loop []
           (let [[command params] (<! channel)]
             (dispatch command params app)
             (recur)))))
+    om/IDidMount
+    (did-mount [_]
+      "Sets up event listeners when app has been properly loaded."
+      (listen-to-hotkeys app)
+      (synchronize-scroll))
     om/IRender
     (render [_]
       "Renders the app components in a container."
