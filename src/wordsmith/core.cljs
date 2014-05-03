@@ -224,6 +224,13 @@
     :change (change-document app params)
     :new    (new-document app)))
 
+(defn set-initial-document!
+  [app]
+  (when (empty? (p/get-all-titles))
+    (om/update! app :title "Readme")
+    (om/update! app :input
+      (.. js/document (getElementById "readme") -textContent trim))))
+
 ;; Hot keys
 
 (defn listen-to-hotkeys
@@ -273,6 +280,7 @@
       dispatch loop which handles all major app state changing events.
       Also attaches a KEYDOWN event listener to the page, for hot keys."
       (om/update! app :titles (p/get-all-titles))
+      (set-initial-document! app)
       (let [channel (:channel app)]
         (go-loop []
           (let [[command params] (<! channel)]
