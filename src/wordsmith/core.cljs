@@ -227,7 +227,6 @@
 (defn set-initial-document!
   [app]
   (when (empty? (p/get-all-titles))
-    (om/update! app :title "Readme")
     (om/update! app :input
       (.. js/document (getElementById "readme") -textContent trim))))
 
