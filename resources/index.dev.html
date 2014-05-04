@@ -9,17 +9,60 @@
             Made by <a href="https://twitter.com/eakron">@eakron</a> using ClojureScript and <a href="https://github.com/swannodette/om">Om</a>. Source code is available on <a href="https://github.com/eakron/wordsmith">Github</a>.
         </div>
         <div id="readme" style="display:none;">
-# wordsmith
+# Markdown Basics
 
-A sample ClojureScript + om application for markdown editing with live preview and localStorage persistence.
+This is a cheatsheet of Github Flavored Markdown.
 
-Running it:
+*To get started, feel free to overwrite this with your own document, or click __new__ in the top right corner.*
+
+## Formatting
+
+### Paragraphs
+
+A paragraph is any "regular" text block with blank lines before and after.
+
+Paragraphs can have `inline code`, _italics_, __bold__ and ~~strike through~~. It also supports <email@example.com>, named [hyperlinks](http://example.com) and simple hyperlinks http://example.com.
+
+### Quotes
+
+> Markdown also has quoted text blocks
+> that make pretty blockquotes.
+
+### Unordered lists
+
+* Milk
+* Eggs
+
+### Ordered lists
+
+1. Peanut butter
+2. Jelly
+
+### Code blocks
 
 ~~~
-lein cljsbuild once release
+fib 0 = 0
+fib 1 = 1
+fib n = fib (n-1) + fib (n-2)
 ~~~
 
-Once compilation has finished, open the index.html file in your browser.
+### Horizontal rules
+
+--------
+
+### Tables
+
+First Header  | Second Header
+------------- | -------------
+Content Cell  | Content Cell
+Content Cell  | Content Cell
+
+## Credits
+
+Markdown was thought up and originally specified by [John Gruber][gruber]. This editor uses a dialect of Markdown, known as [Github Flavored Markdown][gfm].
+
+[gruber]: http://daringfireball.net/projects/markdown/
+[gfm]: http://github.github.com/github-flavored-markdown/
         </div>
         <script src="marked.js" type="text/javascript"></script>
         <script src="http://fb.me/react-0.9.0.js"></script>
