@@ -54,13 +54,15 @@ body {
 }
 
 #input-area {
+	font-family:Consolas,monospace;
 	width:40%;
 	height:90%;
 	background-color: #bab;
 	float:left;
 	color:white;
 	border:0;
-	font-size:16px;
+	line-height: 18px;
+	font-size:14px;
 	padding:20px;
 	margin:0;
 	outline:none;
@@ -80,7 +82,7 @@ body {
 	font-size:16px;
 	padding:20px;
 	border:0;
-	font-family:sans-serif;
+	font-family:Georgia,serif;
 	box-sizing:border-box;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing:border-box;
@@ -164,10 +166,58 @@ button {
 	color:#aaa;
 }
 
-#output-area h1:first-of-type {
-	margin:0;
+h1 {
+	margin:20px 0 10px 0;
 }
 
-#output-area a {
+h2 {
+	margin:15px 0 5px 0;
+}
+
+h3 {
+	margin:15px 0 5px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight:normal;
+}
+
+h1:first-of-type {
+	margin-top:0;
+}
+
+a {
 	color:#eee;
+}
+
+p {
+	margin 15px 0;
+}
+
+h1 + p, h2 + p, h3 + p, h4 + p, h5 + p, h6 + p,
+h1 + ul, h2 + ul, h3 + ul, h4 + ul, h5 + ul, h6 + ul,
+h1 + ol, h2 + ol, h3 + ol, h4 + ol, h5 + ol, h6 + ol {
+	margin-top: 0;
+}
+
+code, pre {
+	white-space: pre-wrap;
+}
+
+hr {
+	border: 0px solid #eee;
+	border-bottom: 2px solid #eee;
+	width: 75%;
+	margin: 30px auto;
+}
+
+table {
+	color:#fff;
+	margin-left:10px;
+	border-collapse:collapse;
+}
+
+td, th {
+	border:1px solid #eee;
+	padding:5px;
 }
