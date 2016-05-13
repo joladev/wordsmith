@@ -1,7 +1,7 @@
 (defproject wordsmith "0.1.0"
   :description "A markdown editor with live preview and localStorage
                 saving. Built using ClojureScript and Om."
-  :url "https://github.com/eakron/wordsmith"
+  :url "https://github.com/yuhama/wordsmith"
 
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-2173"]
