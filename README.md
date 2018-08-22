@@ -1,6 +1,6 @@
 # wordsmith
 
-A sample ClojureScript + om application for markdown editing with live preview and localStorage persistence. Check out the [live demo][live].
+A sample ClojureScript + om application for markdown editing with live preview and localStorage persistence.
 
 Running it:
 
